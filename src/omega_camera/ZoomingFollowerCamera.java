@@ -1,7 +1,7 @@
 package omega_camera;
 
 import omega_gameplay.BasicPhysicDrawnObject;
-import omega_world.Area;
+import omega_world.AreaOldVersion;
 
 /**
  * This camera follows a given object and zooms out when the speed of the object 
@@ -37,7 +37,7 @@ public class ZoomingFollowerCamera extends FollowerCamera
 	 */
 	public ZoomingFollowerCamera(int screenWidth, int screenHeight, 
 			int depthLayers, BasicPhysicDrawnObject followed, 
-			double minimumzoomspeed, double zoommodifier, Area area)
+			double minimumzoomspeed, double zoommodifier, AreaOldVersion area)
 	{
 		super(screenWidth, screenHeight, depthLayers, followed, area);
 		// Initializes attributes

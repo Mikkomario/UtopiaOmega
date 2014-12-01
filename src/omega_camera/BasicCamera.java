@@ -15,7 +15,7 @@ import omega_gameplay.CollisionType;
 import omega_gameplay.HelpMath;
 import omega_graphic.DimensionalDrawnObject;
 import omega_graphic.DrawnObject;
-import omega_world.Area;
+import omega_world.AreaOldVersion;
 
 /**
  * This object acts as the camera of the game, drawing multiple elements from the 
@@ -47,7 +47,7 @@ public class BasicCamera extends BasicPhysicDrawnObject
 	 * @param area The area where the object will reside
 	 */
 	public BasicCamera(int x, int y, int screenWidth, int screenHeight, 
-			int depthLayers, Area area)
+			int depthLayers, AreaOldVersion area)
 	{
 		super(x, y, DepthConstants.BACK, false, CollisionType.BOX, area);
 		

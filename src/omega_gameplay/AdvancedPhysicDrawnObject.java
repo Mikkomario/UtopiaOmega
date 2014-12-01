@@ -4,7 +4,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import omega_world.Area;
+import omega_world.AreaOldVersion;
 
 /**
  * AdvancedPhysicDrawnObject is an object that handles advanced physics like 
@@ -39,7 +39,7 @@ public abstract class AdvancedPhysicDrawnObject extends BasicPhysicDrawnObject
 	 * @param area The area where the object will reside
 	 */
 	public AdvancedPhysicDrawnObject(int x, int y, int depth, boolean isSolid,
-			CollisionType collisiontype, Area area)
+			CollisionType collisiontype, AreaOldVersion area)
 	{
 		super(x, y, depth, isSolid, collisiontype, area);
 		

@@ -3,7 +3,7 @@ package omega_gameplay;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
-import omega_world.Area;
+import omega_world.AreaOldVersion;
 
 /**
  * AdvancedPhysicDrawnObject is a rotating physic object that also handles 
@@ -30,7 +30,7 @@ public abstract class AdvancedPhysicDrawnObjectOld extends RotatingBasicPhysicDr
 	 * @param area The area where the object will reside
 	 */
 	public AdvancedPhysicDrawnObjectOld(int x, int y, int depth, boolean isSolid,
-			CollisionType collisiontype, Area area)
+			CollisionType collisiontype, AreaOldVersion area)
 	{
 		super(x, y, depth, isSolid, collisiontype, area);
 	}

@@ -1,10 +1,5 @@
 package omega_world;
 
-import genesis_graphic.Drawable;
-import genesis_logic.Handled;
-import genesis_logic.Handler;
-import genesis_logic.LogicalHandled;
-
 import java.util.ArrayList;
 
 import omega_graphic.Background;
@@ -25,7 +20,7 @@ public class Room extends Handler
 	// ATTRIBUTES	-----------------------------------------------------
 	
 	private ArrayList<Background> backgrounds;
-	private RoomListenerHandler listenerhandler;
+	private AreaListenerHandler listenerhandler;
 	private boolean active, isinitializing;
 	
 	
@@ -48,7 +43,7 @@ public class Room extends Handler
 		// Initializes attributes
 		this.backgrounds = backgrounds;
 		this.active = true;
-		this.listenerhandler = new RoomListenerHandler(false, null);
+		this.listenerhandler = new AreaListenerHandler(false, null);
 		this.isinitializing = false;
 		
 		// Uninitializes the room
@@ -194,10 +189,10 @@ public class Room extends Handler
 		
 		addHandled(g);
 		// If the object is a roomlistener, adds it to the listenerhandler as well
-		if (g instanceof RoomListener)
+		if (g instanceof AreaListener)
 		{
 			//System.out.println("Added " + g + " as an room listener");
-			this.listenerhandler.addRoomListener((RoomListener) g);
+			this.listenerhandler.addRoomListener((AreaListener) g);
 		}
 	}
 	
@@ -206,7 +201,7 @@ public class Room extends Handler
 	 *
 	 * @param l The listener that will be informed about room events
 	 */
-	public void addRoomListener(RoomListener l)
+	public void addRoomListener(AreaListener l)
 	{
 		this.listenerhandler.addRoomListener(l);
 	}
@@ -220,7 +215,7 @@ public class Room extends Handler
 	{
 		removeHandled(g);
 		// If the object was a roomlistener, removes it from there as well
-		if (g instanceof RoomListener)
+		if (g instanceof AreaListener)
 			this.listenerhandler.removeHandled(g);
 	}
 	

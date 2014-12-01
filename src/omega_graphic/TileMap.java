@@ -8,7 +8,7 @@ import java.awt.Graphics2D;
 import java.util.ArrayList;
 
 import omega_gameplay.CollisionType;
-import omega_world.Area;
+import omega_world.AreaOldVersion;
 
 /**
  * Tilemaps hold a certain number of tiles. Tilemaps can be created using tables 
@@ -25,7 +25,7 @@ public class TileMap extends DimensionalDrawnObject
 	private int width, height, tilewidth, tileheight;
 	private short[] bankindexes, rotations, xscales, yscales, nameindexes;
 	private boolean initialized;
-	private Area area;
+	private AreaOldVersion area;
 	private ActorHandler tileAnimator;
 	private DrawableHandler tileDrawer;
 	
@@ -62,7 +62,7 @@ public class TileMap extends DimensionalDrawnObject
 	public TileMap(int x, int y, 
 			int width, int height, int tilewidth, int tileheight, 
 			short[] bankindexes, short[] rotations, short[] xscales, 
-			short[] yscales, short[] nameindexes, Area area)
+			short[] yscales, short[] nameindexes, AreaOldVersion area)
 	{
 		super(x, y, DepthConstants.BOTTOM - 5, true, CollisionType.BOX, area);
 		

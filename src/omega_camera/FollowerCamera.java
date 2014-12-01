@@ -1,7 +1,7 @@
 package omega_camera;
 
 import omega_gameplay.BasicPhysicDrawnObject;
-import omega_world.Area;
+import omega_world.AreaOldVersion;
 
 /**
  * A camera, which follows the given object around. The camera's position is 
@@ -31,7 +31,7 @@ public class FollowerCamera extends BasicCamera
 	 * @param area The area where the object will reside
 	 */
 	public FollowerCamera(int screenWidth, int screenHeight, int depthLayers, 
-			BasicPhysicDrawnObject followed, Area area)
+			BasicPhysicDrawnObject followed, AreaOldVersion area)
 	{
 		super((int) (followed.getX()), (int) (followed.getY()), 
 				screenWidth, screenHeight, depthLayers, area);

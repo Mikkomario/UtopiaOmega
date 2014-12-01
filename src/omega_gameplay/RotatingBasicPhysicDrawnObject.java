@@ -4,7 +4,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import omega_world.Area;
+import omega_world.AreaOldVersion;
 
 /**
  * This class represents physical objects that can be rotated upon collision or 
@@ -40,7 +40,7 @@ public abstract class RotatingBasicPhysicDrawnObject extends BouncingBasicPhysic
 	 * @param area The area where the object will reside
 	 */
 	public RotatingBasicPhysicDrawnObject(int x, int y, int depth,
-			boolean isSolid, CollisionType collisiontype, Area area)
+			boolean isSolid, CollisionType collisiontype, AreaOldVersion area)
 	{
 		super(x, y, depth, isSolid, collisiontype, area);
 		

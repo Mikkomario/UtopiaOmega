@@ -17,7 +17,7 @@ public class AreaRelay
 {
 	// ATTRIBUTES	------------------------------------------------------
 	
-	private HashMap<String, Area> areas;
+	private HashMap<String, AreaOldVersion> areas;
 	private GameWindow window;
 	private GamePanel panel;
 	
@@ -28,13 +28,13 @@ public class AreaRelay
 	 * Creates an empty areaRelay. The areas need to be added separately. 
 	 * If you are using the relay in a single GameWindow and GamePanel, it is 
 	 * recommended to use the alternative constructor.
-	 * @see #addArea(String, Area)
+	 * @see #addArea(String, AreaOldVersion)
 	 * @see #AreaRelay(GameWindow, GamePanel)
 	 */
 	public AreaRelay()
 	{
 		// Initializes attributes
-		this.areas = new HashMap<String, Area>();
+		this.areas = new HashMap<String, AreaOldVersion>();
 		this.window = null;
 		this.panel = null;
 	}
@@ -55,7 +55,7 @@ public class AreaRelay
 	 */
 	public AreaRelay(GameWindow window, GamePanel panel)
 	{
-		this.areas = new HashMap<String, Area>();
+		this.areas = new HashMap<String, AreaOldVersion>();
 		this.window = window;
 		this.panel = panel;
 	}
@@ -68,7 +68,7 @@ public class AreaRelay
 	 * @param areaName The name of the area to be returned
 	 * @return An area with the given name or null if no such area exists.
 	 */
-	public Area getArea(String areaName)
+	public AreaOldVersion getArea(String areaName)
 	{
 		if (!this.areas.containsKey(areaName))
 		{
@@ -88,7 +88,7 @@ public class AreaRelay
 	 * @param areaName The name of the new area
 	 * @param area The new area to be added
 	 */
-	public void addArea(String areaName, Area area)
+	public void addArea(String areaName, AreaOldVersion area)
 	{
 		if (area == null)
 			return;
@@ -117,7 +117,7 @@ public class AreaRelay
 			return;
 		}
 		
-		addArea(areaName, new Area(areaPhase, 
+		addArea(areaName, new AreaOldVersion(areaPhase, 
 				this.window.getMouseListenerHandler(), 
 				this.window.getStepHandler(), this.panel.getDrawer(), 
 				this.window.getKeyListenerHandler()));
@@ -129,7 +129,7 @@ public class AreaRelay
 	 */
 	public void endAllAreas()
 	{
-		for (Area area : this.areas.values())
+		for (AreaOldVersion area : this.areas.values())
 		{
 			area.end();
 		}

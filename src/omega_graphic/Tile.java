@@ -1,6 +1,6 @@
 package omega_graphic;
 
-import omega_world.Area;
+import omega_world.AreaOldVersion;
 
 /**
  * Tiles are backgrounds that have certain proportions.
@@ -24,7 +24,7 @@ public class Tile extends Background
 	 * @param area The area where the object will reside
 	 */
 	public Tile(int x, int y, Sprite texture, 
-			int width, int height, Area area)
+			int width, int height, AreaOldVersion area)
 	{
 		super(x, y, texture, area);
 		// Sets the size of the tile

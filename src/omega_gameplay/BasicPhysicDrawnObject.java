@@ -1,6 +1,6 @@
 package omega_gameplay;
 
-import omega_world.Area;
+import omega_world.AreaOldVersion;
 import genesis_logic.Actor;
 
 /**
@@ -35,7 +35,7 @@ public abstract class BasicPhysicDrawnObject extends CollidingDrawnObject
 	 * @param area The area where the object will reside
 	 */
 	public BasicPhysicDrawnObject(int x, int y, int depth, boolean isSolid, 
-			CollisionType collisiontype, Area area)
+			CollisionType collisiontype, AreaOldVersion area)
 	{
 		super(x, y, depth, isSolid, collisiontype, area);
 		

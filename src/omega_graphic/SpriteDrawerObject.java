@@ -3,7 +3,7 @@ package omega_graphic;
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 
-import omega_world.Area;
+import omega_world.AreaOldVersion;
 
 /**
  * SpriteDrawerObject is a drawnObject that draws a single sprite. It can be 
@@ -33,7 +33,7 @@ public class SpriteDrawerObject extends DrawnObject
 	 * separately.
 	 * @param sprite The sprite that will be drawn
 	 */
-	public SpriteDrawerObject(Area area, int depth, DrawnObject user, 
+	public SpriteDrawerObject(AreaOldVersion area, int depth, DrawnObject user, 
 			Sprite sprite)
 	{
 		super(0, 0, depth, area);

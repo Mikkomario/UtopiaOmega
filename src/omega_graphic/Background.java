@@ -5,7 +5,7 @@ import genesis_graphic.DepthConstants;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
-import omega_world.Area;
+import omega_world.AreaOldVersion;
 
 /**
  * Background is a simple surface that can be drawn under other objects
@@ -32,7 +32,7 @@ public class Background extends DrawnObject
 	 * (optional, for animated backgrounds)
 	 * @param sprite The sprite that will be used to draw the background
 	 */
-	public Background(int x, int y, Sprite sprite, Area area)
+	public Background(int x, int y, Sprite sprite, AreaOldVersion area)
 	{
 		super(x, y, DepthConstants.BOTTOM, area);
 
@@ -111,7 +111,7 @@ public class Background extends DrawnObject
 	 */
 	public static ArrayList<Background> getRepeatedBackground(
 			int minx, int miny, int width, int height, boolean approximate, 
-			Sprite texture, Area area)
+			Sprite texture, AreaOldVersion area)
 	{
 		// Calculates the number of backgrounds used horizontally and vertically
 		int backbasewidth = texture.getWidth();

@@ -2,7 +2,7 @@ package omega_gameplay;
 
 import java.awt.geom.Point2D;
 
-import omega_world.Area;
+import omega_world.AreaOldVersion;
 
 /**
  * This is a direct extension of the basicphysicobject class that can bounce 
@@ -29,7 +29,7 @@ public abstract class BouncingBasicPhysicDrawnObject extends BasicPhysicDrawnObj
 	 * @param area The area where the object will reside
 	 */
 	public BouncingBasicPhysicDrawnObject(int x, int y, int depth,
-			boolean isSolid, CollisionType collisiontype, Area area)
+			boolean isSolid, CollisionType collisiontype, AreaOldVersion area)
 	{
 		super(x, y, depth, isSolid, collisiontype, area);
 	}

@@ -16,7 +16,7 @@ import omega_gameplay.Movement;
 import omega_graphic.TransformationListener.TransformationAxis;
 import omega_graphic.TransformationListener.TransformationEvent;
 import omega_graphic.TransformationListener.TransformationType;
-import omega_world.Area;
+import omega_world.AreaOldVersion;
 import omega_world.GameObject;
 
 /**
@@ -51,7 +51,7 @@ public abstract class DrawnObject extends GameObject implements Drawable
 	 * @param area The area where the object will reside
 	 * @see DepthConstants
 	 */
-	public DrawnObject(int x, int y, int depth, Area area)
+	public DrawnObject(int x, int y, int depth, AreaOldVersion area)
 	{
 		super(area);
 		

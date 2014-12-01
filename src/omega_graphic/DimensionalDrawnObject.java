@@ -7,7 +7,7 @@ import java.awt.geom.Point2D;
 import omega_gameplay.CollisionType;
 import omega_gameplay.HelpMath;
 import omega_gameplay.PhysicalCollidable;
-import omega_world.Area;
+import omega_world.AreaOldVersion;
 
 /**
  * This is a subclass of the drawnobject that can be used in collisionchecking 
@@ -39,7 +39,7 @@ public abstract class DimensionalDrawnObject extends DrawnObject implements Phys
 	 * @param area The area where the object will reside
 	 */
 	public DimensionalDrawnObject(int x, int y, int depth, boolean isSolid, 
-			CollisionType collisiontype, Area area)
+			CollisionType collisiontype, AreaOldVersion area)
 	{
 		super(x, y, depth, area);
 		

@@ -5,7 +5,7 @@ import java.awt.geom.Point2D;
 
 import omega_graphic.DimensionalDrawnObject;
 import omega_graphic.TransformationListener;
-import omega_world.Area;
+import omega_world.AreaOldVersion;
 
 /**
  * Collidingdrawnobject is a subclass of the drawnobject that can collide with 
@@ -38,7 +38,7 @@ public abstract class CollidingDrawnObject extends DimensionalDrawnObject
 	 * @param area The area where the object will reside
 	 */
 	public CollidingDrawnObject(int x, int y, int depth, boolean isSolid,
-			CollisionType collisiontype, Area area)
+			CollisionType collisiontype, AreaOldVersion area)
 	{
 		super(x, y, depth, isSolid, collisiontype, area);
 		

@@ -13,7 +13,7 @@ import java.awt.Graphics2D;
  * when that object does.
  *
  * @author Mikko Hilpinen.
- *         Created 2.7.2013.
+ * @since 2.7.2013.
  */
 public abstract class SpriteDrawer implements Actor
 {

@@ -18,7 +18,7 @@ import omega_graphic.TileMap;
  * @author Mikko Hilpinen.
  * @since 11.7.2013.
  */
-public class TiledRoom extends Area
+public class TiledRoom extends AreaOldVersion
 {	
 	// ATTRIBUTES	-----------------------------------------------------
 	

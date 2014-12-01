@@ -1,6 +1,9 @@
 package omega_world;
 
-import genesis_logic.Handled;
+import genesis_event.Handled;
+import genesis_event.HandlerRelay;
+import genesis_util.LatchStateOperator;
+import genesis_util.StateOperator;
 
 /**
  * GameObject represents any game entity. All of the gameobjects can be created, 
@@ -10,50 +13,80 @@ import genesis_logic.Handled;
  * @author Mikko Hilpinen.
  * @since 11.7.2013.
  */
-public abstract class GameObject implements Handled
+public class GameObject implements Handled
 {
+	// TODO: Use a separate interface instead?
+	
 	// ATTRIBUTES	-----------------------------------------------------
 	
-	private boolean dead;
+	private StateOperator isDeadOperator, isActiveOperator;
+	private GameObject master;
 	
 	
 	// CONSTRUCTOR	-----------------------------------------------------
 	
 	/**
 	 * Creates a new gameobject that is alive until it is killed
-	 * @param area The area where the GameObject will reside
+	 * @param handlers The handlers that handle the object
 	 */
-	public GameObject(Area area)
+	public GameObject(HandlerRelay handlers)
 	{
 		// Initializes attributes
-		this.dead = false;
+		this.isDeadOperator = new LatchStateOperator(false);
+		this.isActiveOperator = new StateOperator(true, true);
+		this.master = null;
 		
 		// Adds the object to the handler(s)
-		if (area != null)
-			area.addObject(this);
+		if (handlers != null)
+			handlers.addHandled(this);
+	}
+	
+	/**
+	 * Creates a new GameObject that will become dependent of the given object
+	 * @param handlers The handlers that handle this gameObject
+	 * @param master The object this gameObject depends on. If the master dies, this object 
+	 * will follow.
+	 */
+	public GameObject(HandlerRelay handlers, GameObject master)
+	{
+		this.isDeadOperator = null;
+		this.isActiveOperator = new StateOperator(true, true);
+		this.master = master;
+		
+		// Adds the object to the handler(s)
+		if (handlers != null)
+			handlers.addHandled(this);
 	}
 	
 	
 	// IMPLEMENTED METHODS	---------------------------------------------
 	
 	@Override
-	public boolean isDead()
+	public StateOperator getIsDeadStateOperator()
 	{
-		return this.dead;
-	}
-
-	@Override
-	public void kill()
-	{
-		this.dead = true;
+		if (this.master != null)
+			return this.master.getIsDeadStateOperator();
+		
+		return this.isDeadOperator;
 	}
 	
-	@Override
-	public String toString()
+	
+	// GETTERS & SETTERS	----------------------
+	
+	/**
+	 * @return The object this GameObject depends on
+	 */
+	protected GameObject getMasterObject()
 	{
-		String status = "alive ";
-		if (isDead())
-			status = "dead ";
-		return status + getClass().getName();
+		return this.master;
+	}
+	
+	/**
+	 * @return This stateOperator tells whether the object is active (= is in an active Area 
+	 * / other context) or not. The subclasses should take notice of this operator's states.
+	 */
+	public StateOperator getIsActiveStateOperator()
+	{
+		return this.isActiveOperator;
 	}
 }

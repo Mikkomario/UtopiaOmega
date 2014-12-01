@@ -14,11 +14,11 @@ import omega_graphic.Tile;
  * @author Mikko Hilpinen
  * @since 9.3.2014
  */
-public abstract class AreaObjectCreator extends GameObject implements RoomListener
+public abstract class AreaObjectCreator extends GameObject implements AreaListener
 {
 	// ATTRIBUTES	----------------------------------------------------
 	
-	private Area area;
+	private AreaOldVersion area;
 	private String areaBackgroundName, areaBackgroundBankName;
 	private int areaWidth, areaHeight;
 	
@@ -37,7 +37,7 @@ public abstract class AreaObjectCreator extends GameObject implements RoomListen
 	 * @param areaWidth How wide the area is (optional, used for background scaling)
 	 * @param areaHeight How high the area is (optional, used for background scaling)
 	 */
-	public AreaObjectCreator(Area area, String backgroundName, 
+	public AreaObjectCreator(AreaOldVersion area, String backgroundName, 
 			String backgroundBankName, int areaWidth, int areaHeight)
 	{
 		super(area);
@@ -59,7 +59,7 @@ public abstract class AreaObjectCreator extends GameObject implements RoomListen
 	 * 
 	 * @param area The area where the objects will be created to.
 	 */
-	protected abstract void createObjects(Area area);
+	protected abstract void createObjects(AreaOldVersion area);
 	
 	
 	// IMPLEMENTED METHODS	---------------------------------------------

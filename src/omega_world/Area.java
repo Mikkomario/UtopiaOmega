@@ -1,132 +1,131 @@
 package omega_world;
 
-import genesis_graphic.DepthConstants;
-import genesis_graphic.DrawableHandler;
-import genesis_logic.ActorHandler;
-import genesis_logic.KeyListenerHandler;
-import genesis_logic.MouseListenerHandler;
-
-import java.util.ArrayList;
-
 import arc_resource.GamePhase;
 import arc_resource.ResourceActivator;
-import omega_gameplay.CollisionHandler;
-import omega_graphic.Background;
+import genesis_event.Handler;
+import genesis_event.HandlerRelay;
+import genesis_event.HandlerType;
+import genesis_util.StateOperator;
 
 /**
- * Areas are certain states or places in the program. Areas contain their 
- * own set of basic handlers they offer for their objects. Areas can be started 
- * or ended like any room.
+ * Areas contain objects and keep track of different handlers. They also each have a GamePhase 
+ * that is activated when an area is active.
  * 
  * @author Mikko Hilpinen
- * @since 9.3.2014
+ * @since 2.12.2014
  */
-public class Area extends Room
+public class Area extends Handler<GameObject>
 {
-	// ATTRIBUTES	-----------------------------------------------------
+	// ATTRIBUTES	--------------------------------
 	
-	private MouseListenerHandler mousehandler;
-	private KeyListenerHandler keyHandler;
-	private ActorHandler actorhandler;
-	private DrawableHandler drawer;
-	private CollisionHandler collisionhandler;
+	private AreaListenerHandler listenerHandler;
+	private HandlerRelay handlers;
 	private GamePhase phase;
+	private StateOperator isActiveOperator;
 	
 	
-	// CONSTRUCTOR	-----------------------------------------------------
+	// CONSTRUCTOR	--------------------------------
 	
 	/**
-	 * Creates a new area with separate handler systems. The area will remain 
-	 * inactive until started.
-	 * 
-	 * @param phase The GamePhase during which the area is active
-	 * @param superMouseHandler The MouseListenerHandler that the area's handlers will use
-	 * @param superActorHandler The ActorHandler that the area's handlers will use
-	 * @param superDrawer The DrawableHandler that the area's handlers will use
-	 * @param superKeyHandler The keyListenerHandler that the area's keyHandler will use
+	 * Creates a new Area
+	 * @param phase The gamePhase that will be activated once the area starts
+	 * @param handlers The handlers that will be used in this area
 	 */
-	public Area(GamePhase phase, MouseListenerHandler superMouseHandler, 
-			ActorHandler superActorHandler, DrawableHandler superDrawer, 
-			KeyListenerHandler superKeyHandler)
+	public Area(GamePhase phase, HandlerRelay handlers)
 	{
-		super(new ArrayList<Background>());
+		super(false, handlers);
 		
 		// Initializes attributes
 		this.phase = phase;
-		this.mousehandler = new MouseListenerHandler(false, superActorHandler, 
-				superMouseHandler);
-		this.actorhandler = new ActorHandler(false, superActorHandler);
-		this.drawer = new DrawableHandler(false, true, DepthConstants.NORMAL, 5, 
-				superDrawer);
-		this.collisionhandler = new CollisionHandler(false, superActorHandler);
-		this.keyHandler = new KeyListenerHandler(false, superKeyHandler);
+		this.handlers = handlers;
+		this.isActiveOperator = new StateOperator(false, true);
+		this.listenerHandler = new AreaListenerHandler(false);
+		
+		// Initializes handlers
+		this.handlers.addHandler(this);
+		this.handlers.addHandler(this.listenerHandler);
+		
+		getIsActiveStateOperator().getListenerHandler().add(this);
+	}
+	
+	
+	// IMPLEMENTED METHODS	--------------------------
+
+	@Override
+	public HandlerType getHandlerType()
+	{
+		return OmegaHandlerType.AREA;
 	}
 
-	
-	// IMPLEMENTED METHODS	---------------------------------------------
-	
 	@Override
-	public void kill()
+	protected boolean handleObject(GameObject h)
 	{
-		// Also kills the handlers
-		this.mousehandler.kill();
-		this.actorhandler.kill();
-		this.drawer.kill();
-		this.collisionhandler.kill();
-		this.keyHandler.kill();
-		
-		super.kill();
+		// Initializes / uninitializes the object
+		h.getIsActiveStateOperator().setState(getIsActiveStateOperator().getState());
+		return true;
 	}
 	
 	@Override
-	protected void initialize()
+	public void add(GameObject g)
 	{
-		// Area makes sure the correct phase is active before initialization
-		ResourceActivator.startPhase(this.phase);
+		super.add(g);
 		
-		super.initialize();
+		// Changes the objects state to match the state of the area as well
+		handleObject(g);
+	}
+	
+	@Override
+	public void onStateChange(StateOperator source, boolean newState)
+	{
+		super.onStateChange(source, newState);
+		
+		if (source == getIsActiveStateOperator())
+		{
+			if (newState)
+				ResourceActivator.startPhase(getPhase());
+			
+			this.listenerHandler.onAreaStateChange(this);
+		}
+		// Kills the listenerHandler on death
+		else if (source == getIsDeadStateOperator() && newState)
+		{
+			this.listenerHandler.removeAllHandleds();
+			this.listenerHandler.getIsDeadStateOperator().setState(true);
+		}
 	}
 	
 	
-	// GETTERS & SETTERS	-----------------------------------------------
+	// GETTERS & SETTERS	---------------------------
 	
 	/**
-	 * @return The mouseListenerHandler used in the area
+	 * @return The stateOperator that defines if this area is active or not
 	 */
-	public MouseListenerHandler getMouseHandler()
+	public StateOperator getIsActiveStateOperator()
 	{
-		return this.mousehandler;
+		return this.isActiveOperator;
 	}
 	
 	/**
-	 * @return The actorHandler used in the area
+	 * @return The gamePhase that will be activated when this area starts
 	 */
-	public ActorHandler getActorHandler()
+	public GamePhase getPhase()
 	{
-		return this.actorhandler;
+		return this.phase;
 	}
 	
 	/**
-	 * @return The drawableHandler used in the area
+	 * @return The handlers used in this area
 	 */
-	public DrawableHandler getDrawer()
+	public HandlerRelay getHandlers()
 	{
-		return this.drawer;
+		return this.handlers;
 	}
 	
 	/**
-	 * @return The collisionHandler used in the area
+	 * @return AreaListenerHandler that informs areaListeners about changes in this area
 	 */
-	public CollisionHandler getCollisionHandler()
+	public AreaListenerHandler getListenerHandler()
 	{
-		return this.collisionhandler;
-	}
-	
-	/**
-	 * @return The keyListenerHandler used in the area
-	 */
-	public KeyListenerHandler getKeyHandler()
-	{
-		return this.keyHandler;
+		return this.listenerHandler;
 	}
 }
