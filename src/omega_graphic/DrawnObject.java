@@ -1,5 +1,6 @@
 package omega_graphic;
 
+import exodus_object.SimpleGameObject;
 import genesis_graphic.DepthConstants;
 import genesis_graphic.Drawable;
 
@@ -17,7 +18,6 @@ import omega_graphic.TransformationListener.TransformationAxis;
 import omega_graphic.TransformationListener.TransformationEvent;
 import omega_graphic.TransformationListener.TransformationType;
 import omega_world.AreaOldVersion;
-import omega_world.SimpleGameObject;
 
 /**
  * An object from this class is can be drawn on screen as an two dimensional 
