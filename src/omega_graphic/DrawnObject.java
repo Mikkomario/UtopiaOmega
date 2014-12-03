@@ -17,7 +17,7 @@ import omega_graphic.TransformationListener.TransformationAxis;
 import omega_graphic.TransformationListener.TransformationEvent;
 import omega_graphic.TransformationListener.TransformationType;
 import omega_world.AreaOldVersion;
-import omega_world.GameObject;
+import omega_world.SimpleGameObject;
 
 /**
  * An object from this class is can be drawn on screen as an two dimensional 
@@ -26,7 +26,7 @@ import omega_world.GameObject;
  * @author Mikko Hilpinen.
  * @since 26.11.2012.
  */
-public abstract class DrawnObject extends GameObject implements Drawable
+public abstract class DrawnObject extends SimpleGameObject implements Drawable
 {	
 	// ATTRIBUTES	-------------------------------------------------------
 	

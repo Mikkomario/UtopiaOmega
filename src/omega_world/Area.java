@@ -14,10 +14,11 @@ import genesis_util.StateOperator;
  * @author Mikko Hilpinen
  * @since 2.12.2014
  */
-public class Area extends Handler<GameObject>
+public class Area extends Handler<GameObject> implements GameObject
 {
 	// ATTRIBUTES	--------------------------------
 	
+	private String name;
 	private AreaListenerHandler listenerHandler;
 	private HandlerRelay handlers;
 	private GamePhase phase;
@@ -28,10 +29,11 @@ public class Area extends Handler<GameObject>
 	
 	/**
 	 * Creates a new Area
+	 * @param name The name of the area
 	 * @param phase The gamePhase that will be activated once the area starts
 	 * @param handlers The handlers that will be used in this area
 	 */
-	public Area(GamePhase phase, HandlerRelay handlers)
+	public Area(String name, GamePhase phase, HandlerRelay handlers)
 	{
 		super(false, handlers);
 		
@@ -51,6 +53,12 @@ public class Area extends Handler<GameObject>
 	
 	// IMPLEMENTED METHODS	--------------------------
 
+	@Override
+	public StateOperator getIsActiveStateOperator()
+	{
+		return this.isActiveOperator;
+	}
+	
 	@Override
 	public HandlerType getHandlerType()
 	{
@@ -98,11 +106,11 @@ public class Area extends Handler<GameObject>
 	// GETTERS & SETTERS	---------------------------
 	
 	/**
-	 * @return The stateOperator that defines if this area is active or not
+	 * @return The name of the area
 	 */
-	public StateOperator getIsActiveStateOperator()
+	public String getName()
 	{
-		return this.isActiveOperator;
+		return this.name;
 	}
 	
 	/**

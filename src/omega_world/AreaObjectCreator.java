@@ -1,94 +1,85 @@
 package omega_world;
 
-import java.util.ArrayList;
+import java.io.FileNotFoundException;
 
-import omega_graphic.Background;
-import omega_graphic.OpenSpriteBank;
-import omega_graphic.Tile;
+import flow_recording.AbstractConstructor;
+import flow_recording.TextConstructorInstructor;
+import genesis_util.StateOperator;
 
 /**
- * AreaObject creators are set into areas. They create a set of objects when 
- * the area starts. AreaObjectCreators also handle the background of an area 
- * if it's necessary
+ * AreaObjectCreators create new objects each time an area is activated. They also kill the 
+ * objects when the area ends.
  * 
  * @author Mikko Hilpinen
- * @since 9.3.2014
+ * @since 2.12.2014
  */
-public abstract class AreaObjectCreator extends GameObject implements AreaListener
+public class AreaObjectCreator implements AreaListener
 {
-	// ATTRIBUTES	----------------------------------------------------
+	// ATTRIBUTES	----------------------------
 	
-	private AreaOldVersion area;
-	private String areaBackgroundName, areaBackgroundBankName;
-	private int areaWidth, areaHeight;
+	private TextConstructorInstructor instructor;
+	private AbstractConstructor<ConstructableGameObject> constructor;
+	private String fileName;
+	private Area area;
 	
 	
-	// CONSTRUCTOR	----------------------------------------------------
+	// CONSTRUCTOR	---------------------------
 	
 	/**
-	 * Creates a new areaObjectCreator to the given area. The creator will 
-	 * create objects when the area starts.
-	 * 
-	 * @param area The area the creator will reside at
-	 * @param backgroundName The name of the area's background image in a 
-	 * spriteBank (null if no background)
-	 * @param backgroundBankName The name of the spriteBank that holds the 
-	 * background used in the area (null if no background)
-	 * @param areaWidth How wide the area is (optional, used for background scaling)
-	 * @param areaHeight How high the area is (optional, used for background scaling)
+	 * Creates a new AreaObjectCreator
+	 * @param constructor The constructor that will construct the objects
+	 * @param fileName The name of the file that contains object information 
+	 * ("data/" automatically included. %CHECK: is used for instructions)
+	 * @param area the area the objects will be placed to
 	 */
-	public AreaObjectCreator(AreaOldVersion area, String backgroundName, 
-			String backgroundBankName, int areaWidth, int areaHeight)
+	public AreaObjectCreator(AbstractConstructor<ConstructableGameObject> constructor, 
+			String fileName, Area area)
 	{
-		super(area);
-		
 		// Initializes attributes
+		this.constructor = constructor;
+		this.instructor = new TextConstructorInstructor(constructor);
+		this.fileName = fileName;
 		this.area = area;
-		this.areaBackgroundBankName = backgroundBankName;
-		this.areaBackgroundName = backgroundName;
-		this.areaWidth = areaWidth;
-		this.areaHeight = areaHeight;
-	}
-	
-	
-	// ABSTRACT METHODS	-------------------------------------------------
-	
-	/**
-	 * Here the creator will create objects it's supposed to and adds them 
-	 * to the area (if necessary)
-	 * 
-	 * @param area The area where the objects will be created to.
-	 */
-	protected abstract void createObjects(AreaOldVersion area);
-	
-	
-	// IMPLEMENTED METHODS	---------------------------------------------
-
-	@Override
-	public void onRoomStart(Room room)
-	{
-		// Creates the objects
-		createObjects(this.area);
 		
-		// Changes the room's background
-		if (this.areaBackgroundBankName != null && 
-				this.areaBackgroundName != null && this.areaWidth != 0 && 
-				this.areaHeight != 0)
-		{
-			ArrayList<Background> backs = new ArrayList<Background>();
-			Tile back = new Tile(this.areaWidth / 2, this.areaHeight / 2, 
-					OpenSpriteBank.getSprite(this.areaBackgroundBankName, 
-					this.areaBackgroundName), this.areaWidth, this.areaHeight, this.area);
-			backs.add(back);
-			this.area.setBackgrounds(backs, false);
-		}
+		// Adds the object to the handler(s)
+		if (area != null)
+			this.area.getListenerHandler().add(this);
+	}
+	
+	
+	// IMPLEMENTED METHODS	-----------------------------
+
+	@Override
+	public StateOperator getIsDeadStateOperator()
+	{
+		// The creator's state is tied to the area's
+		return this.area.getIsDeadStateOperator();
 	}
 
 	@Override
-	public void onRoomEnd(Room room)
+	public void onAreaStateChange(Area area)
 	{
-		// Removes the background (if any)
-		if (this.areaBackgroundBankName != null && this.areaBackgroundName != null)
-			this.area.setBackgrounds(null, true);
+		// When area starts, creates new objects
+		if (area.getIsActiveStateOperator().getState())
+		{
+			try
+			{
+				this.instructor.constructFromFile(this.fileName, "*");
+			}
+			catch (FileNotFoundException e)
+			{
+				throw new AbstractConstructor.ConstructorException("Couldn't find the file " + 
+						this.fileName);
+			}
+		}
+		// When area ends, kills them
+		else
+		{
+			for (ConstructableGameObject construct : this.constructor.getConstructs().values())
+			{
+				construct.getIsDeadStateOperator().setState(true);
+			}
+			this.constructor.reset();
+		}
 	}
 }

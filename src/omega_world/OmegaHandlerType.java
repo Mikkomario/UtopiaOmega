@@ -27,7 +27,7 @@ public enum OmegaHandlerType implements HandlerType
 	{
 		switch (this)
 		{
-			case AREA: return GameObject.class;
+			case AREA: return SimpleGameObject.class;
 			case AREALISTENERHANDLER: return AreaListener.class;
 		}
 		
