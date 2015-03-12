@@ -5,12 +5,12 @@ import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 
 import omega_util.Transformation;
-import genesis_event.AdvancedKeyEvent;
-import genesis_event.AdvancedKeyListener;
-import genesis_event.AdvancedMouseEvent;
-import genesis_event.AdvancedMouseListener;
 import genesis_event.EventSelector;
 import genesis_event.HandlerRelay;
+import genesis_event.KeyEvent;
+import genesis_event.KeyListener;
+import genesis_event.MouseEvent;
+import genesis_event.MouseListener;
 import genesis_util.StateOperator;
 import genesis_util.Vector2D;
 
@@ -21,13 +21,13 @@ import genesis_util.Vector2D;
  * @since 9.12.2014
  */
 public class TestTransformationInputObject extends IndependentTestObject
-		implements AdvancedMouseListener, AdvancedKeyListener
+		implements MouseListener, KeyListener
 {
 	// ATTRIBUTES	--------------------------
 	
 	private Vector2D lastRelativeMousePosition;
-	private EventSelector<AdvancedMouseEvent> mouseSelector;
-	private EventSelector<AdvancedKeyEvent> keySelector;
+	private EventSelector<MouseEvent> mouseSelector;
+	private EventSelector<KeyEvent> keySelector;
 	
 	
 	// CONSTRUCTOR	--------------------------
@@ -44,9 +44,8 @@ public class TestTransformationInputObject extends IndependentTestObject
 		
 		// initializes attributes
 		this.lastRelativeMousePosition = Vector2D.zeroVector();
-		this.mouseSelector = AdvancedMouseEvent.createMouseMoveSelector();
-		this.keySelector = AdvancedKeyEvent.createEventTypeSelector(
-				AdvancedKeyEvent.KeyEventType.DOWN);
+		this.mouseSelector = MouseEvent.createMouseMoveSelector();
+		this.keySelector = KeyEvent.createEventTypeSelector(KeyEvent.KeyEventType.DOWN);
 	}
 	
 	
@@ -65,7 +64,7 @@ public class TestTransformationInputObject extends IndependentTestObject
 	}
 	
 	@Override
-	public EventSelector<AdvancedKeyEvent> getKeyEventSelector()
+	public EventSelector<KeyEvent> getKeyEventSelector()
 	{
 		return this.keySelector;
 	}
@@ -77,7 +76,7 @@ public class TestTransformationInputObject extends IndependentTestObject
 	}
 
 	@Override
-	public void onKeyEvent(AdvancedKeyEvent event)
+	public void onKeyEvent(KeyEvent event)
 	{
 		switch (event.getKey())
 		{
@@ -111,7 +110,7 @@ public class TestTransformationInputObject extends IndependentTestObject
 	}
 
 	@Override
-	public EventSelector<AdvancedMouseEvent> getMouseEventSelector()
+	public EventSelector<MouseEvent> getMouseEventSelector()
 	{
 		return this.mouseSelector;
 	}
@@ -123,7 +122,7 @@ public class TestTransformationInputObject extends IndependentTestObject
 	}
 
 	@Override
-	public void onMouseEvent(AdvancedMouseEvent event)
+	public void onMouseEvent(MouseEvent event)
 	{
 		// Updates the mouse position (transformed)
 		this.lastRelativeMousePosition = getTransformation().inverseTransform(

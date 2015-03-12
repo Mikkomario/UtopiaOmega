@@ -82,12 +82,6 @@ public class DependentTestObject extends DependentGameObject<IndependentTestObje
 	}
 
 	@Override
-	public void setDepth(int depth)
-	{
-		// Not happening
-	}
-
-	@Override
 	public void act(double arg0)
 	{
 		setTrasformation(this.ownTransformation.rotatedAroundAbsolutePoint(1, 

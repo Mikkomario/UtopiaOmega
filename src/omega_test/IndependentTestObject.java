@@ -73,10 +73,4 @@ public class IndependentTestObject extends SimpleGameObject implements
 	{
 		return getIsActiveStateOperator();
 	}
-
-	@Override
-	public void setDepth(int arg0)
-	{
-		// Not possible
-	}
 }
