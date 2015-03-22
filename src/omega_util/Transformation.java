@@ -8,7 +8,7 @@ import java.util.Map;
 
 import genesis_util.HelpMath;
 import genesis_util.Line;
-import genesis_util.Vector2D;
+import genesis_util.Vector3D;
 
 /**
  * Transformation represents an object's state. Transformation can affect many things, 
@@ -22,7 +22,7 @@ public final class Transformation
 {
 	// ATTRIBUTES	-----------------------------------
 	
-	private Vector2D position, scaling, shear;
+	private Vector3D position, scaling, shear;
 	private double angle;
 	
 	
@@ -41,7 +41,7 @@ public final class Transformation
 	 * Creates a new transformation with the given preset position
 	 * @param position The position attribute of the transformation
 	 */
-	public Transformation(Vector2D position)
+	public Transformation(Vector3D position)
 	{
 		// Initializes attributes
 		initialize();
@@ -55,7 +55,7 @@ public final class Transformation
 	 * @param shear The shearing attribute of the transformation
 	 * @param angle The angle attribute of the transformation
 	 */
-	public Transformation(Vector2D position, Vector2D scaling, Vector2D shear, double angle)
+	public Transformation(Vector3D position, Vector3D scaling, Vector3D shear, double angle)
 	{
 		this.position = position;
 		this.scaling = scaling;
@@ -90,7 +90,7 @@ public final class Transformation
 	/**
 	 * @return The position attribute of this transformation (default at (0,0))
 	 */
-	public Vector2D getPosition()
+	public Vector3D getPosition()
 	{
 		return this.position;
 	}
@@ -98,7 +98,7 @@ public final class Transformation
 	/**
 	 * @return The scaling attribute of this transformation (default at (1,1))
 	 */
-	public Vector2D getScaling()
+	public Vector3D getScaling()
 	{
 		return this.scaling;
 	}
@@ -106,7 +106,7 @@ public final class Transformation
 	/**
 	 * @return The shearing attribute of this transformation (default at (0,0))
 	 */
-	public Vector2D getShear()
+	public Vector3D getShear()
 	{
 		return this.shear;
 	}
@@ -137,9 +137,9 @@ public final class Transformation
 	 * @param relativeCoordinates The position in the object space (relative)
 	 * @return The position in the world space (absolute)
 	 */
-	public Vector2D transform(Vector2D relativeCoordinates)
+	public Vector3D transform(Vector3D relativeCoordinates)
 	{
-		return new Vector2D(this.toAffineTransform().transform(relativeCoordinates.toPoint(), null));
+		return new Vector3D(this.toAffineTransform().transform(relativeCoordinates.toPoint(), null));
 	}
 	
 	/**
@@ -159,7 +159,7 @@ public final class Transformation
 	 * @param absoluteCoordinates The position in the world space (absolute)
 	 * @return The position in this transformation's space (relative)
 	 */
-	public Vector2D inverseTransform(Vector2D absoluteCoordinates)
+	public Vector3D inverseTransform(Vector3D absoluteCoordinates)
 	{
 		AffineTransform transform = this.toAffineTransform();
 		AffineTransform inverse = null;
@@ -185,7 +185,7 @@ public final class Transformation
 			exception.printStackTrace();
 		}
 		
-		return new Vector2D(inverse.transform(absoluteCoordinates.toPoint(), null));
+		return new Vector3D(inverse.transform(absoluteCoordinates.toPoint(), null));
 	}
 	
 	/**
@@ -195,7 +195,7 @@ public final class Transformation
 	 */
 	public Transformation transform(Transformation other)
 	{
-		Vector2D transformedPosition = transform(other.getPosition());
+		Vector3D transformedPosition = transform(other.getPosition());
 		return this.plus(other).withPosition(transformedPosition);
 	}
 	
@@ -220,7 +220,7 @@ public final class Transformation
 	{
 		// TODO: Test
 		return new Transformation(getPosition().reverse(), 
-				Vector2D.identityVector().dividedBy(getScaling()), getShear().reverse(), 
+				Vector3D.identityVector().dividedBy(getScaling()), getShear().reverse(), 
 				HelpMath.checkDirection(-getAngle()));
 	}
 	
@@ -248,7 +248,7 @@ public final class Transformation
 	 * @param position The new position attribute
 	 * @return A transformation like this one except with the given position
 	 */
-	public Transformation withPosition(Vector2D position)
+	public Transformation withPosition(Vector3D position)
 	{
 		Transformation t = this.clone();
 		t.position = position;
@@ -259,7 +259,7 @@ public final class Transformation
 	 * @param scaling The new scaling attribute
 	 * @return A transformation like this one except with the given scaling
 	 */
-	public Transformation withScaling(Vector2D scaling)
+	public Transformation withScaling(Vector3D scaling)
 	{
 		Transformation t = this.clone();
 		t.scaling = scaling;
@@ -270,7 +270,7 @@ public final class Transformation
 	 * @param shear The new shear attribute
 	 * @return A transformation like this one except with the given shear
 	 */
-	public Transformation withShear(Vector2D shear)
+	public Transformation withShear(Vector3D shear)
 	{
 		Transformation t = this.clone();
 		t.shear = shear;
@@ -300,9 +300,9 @@ public final class Transformation
 	{
 		switch (attributeName)
 		{
-			case "position": return this.withPosition(Vector2D.parseFromString(attributeValue));
-			case "scaling": return this.withScaling(Vector2D.parseFromString(attributeValue));
-			case "shear": return this.withShear(Vector2D.parseFromString(attributeValue));
+			case "position": return this.withPosition(Vector3D.parseFromString(attributeValue));
+			case "scaling": return this.withScaling(Vector3D.parseFromString(attributeValue));
+			case "shear": return this.withShear(Vector3D.parseFromString(attributeValue));
 			case "angle": return this.withAngle(Double.parseDouble(attributeValue));
 		}
 		
@@ -332,7 +332,7 @@ public final class Transformation
 	 * @param origin The origin point of the rotation (absolute)
 	 * @return A new transformation that has been rotated around the given position
 	 */
-	public Transformation rotatedAroundAbsolutePoint(double rotation, Vector2D origin)
+	public Transformation rotatedAroundAbsolutePoint(double rotation, Vector3D origin)
 	{
 		return this.withPosition(HelpMath.getRotatedPosition(origin, getPosition(), 
 				rotation)).plus(rotationTransformation(rotation));
@@ -345,7 +345,7 @@ public final class Transformation
 	 * @param origin The origin point of the rotation (relative)
 	 * @return A new transformation that has been rotated around the given position
 	 */
-	public Transformation rotatedAroundRelativePoint(double rotation, Vector2D origin)
+	public Transformation rotatedAroundRelativePoint(double rotation, Vector3D origin)
 	{
 		return this.rotatedAroundAbsolutePoint(rotation, this.transform(origin));
 	}
@@ -367,9 +367,9 @@ public final class Transformation
 	
 	private void initialize()
 	{
-		this.position = Vector2D.zeroVector();
-		this.scaling = Vector2D.identityVector();
-		this.shear = Vector2D.zeroVector();
+		this.position = Vector3D.zeroVector();
+		this.scaling = Vector3D.identityVector();
+		this.shear = Vector3D.zeroVector();
 		this.angle = 0;
 	}
 	
@@ -389,7 +389,7 @@ public final class Transformation
 	 * @return A transformation that only affects the position attribute when combined 
 	 * with another transformation
 	 */
-	public static Transformation transitionTransformation(Vector2D transition)
+	public static Transformation transitionTransformation(Vector3D transition)
 	{
 		return new Transformation(transition);
 	}
@@ -399,7 +399,7 @@ public final class Transformation
 	 * @return A transformation that only affects the scaling attribute when combined 
 	 * with another transformation
 	 */
-	public static Transformation scalingTransformation(Vector2D scaling)
+	public static Transformation scalingTransformation(Vector3D scaling)
 	{
 		return identityTransformation().withScaling(scaling);
 	}
@@ -411,7 +411,7 @@ public final class Transformation
 	 */
 	public static Transformation scalingTransformation(double scaling)
 	{
-		return identityTransformation().withScaling(new Vector2D(scaling, scaling));
+		return identityTransformation().withScaling(new Vector3D(scaling, scaling));
 	}
 	
 	/**
@@ -419,7 +419,7 @@ public final class Transformation
 	 * @return A transformation that only affects the shear attribute when combined 
 	 * with another transformation
 	 */
-	public static Transformation shearTransformation(Vector2D shear)
+	public static Transformation shearTransformation(Vector3D shear)
 	{
 		return identityTransformation().withShear(shear);
 	}

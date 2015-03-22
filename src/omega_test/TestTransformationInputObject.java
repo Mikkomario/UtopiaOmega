@@ -12,7 +12,7 @@ import genesis_event.KeyListener;
 import genesis_event.MouseEvent;
 import genesis_event.MouseListener;
 import genesis_util.StateOperator;
-import genesis_util.Vector2D;
+import genesis_util.Vector3D;
 
 /**
  * This class tests some methods in the transformation and visually presents them
@@ -25,7 +25,7 @@ public class TestTransformationInputObject extends IndependentTestObject
 {
 	// ATTRIBUTES	--------------------------
 	
-	private Vector2D lastRelativeMousePosition;
+	private Vector3D lastRelativeMousePosition;
 	private EventSelector<MouseEvent> mouseSelector;
 	private EventSelector<KeyEvent> keySelector;
 	
@@ -38,12 +38,12 @@ public class TestTransformationInputObject extends IndependentTestObject
 	 * @param position The oject's new position
 	 */
 	public TestTransformationInputObject(HandlerRelay handlers,
-			Vector2D position)
+			Vector3D position)
 	{
 		super(handlers, position);
 		
 		// initializes attributes
-		this.lastRelativeMousePosition = Vector2D.zeroVector();
+		this.lastRelativeMousePosition = Vector3D.zeroVector();
 		this.mouseSelector = MouseEvent.createMouseMoveSelector();
 		this.keySelector = KeyEvent.createEventTypeSelector(KeyEvent.KeyEventType.DOWN);
 	}
@@ -116,7 +116,7 @@ public class TestTransformationInputObject extends IndependentTestObject
 	}
 
 	@Override
-	public boolean isInAreaOfInterest(Vector2D position)
+	public boolean isInAreaOfInterest(Vector3D position)
 	{
 		return false;
 	}

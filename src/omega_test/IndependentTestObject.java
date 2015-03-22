@@ -9,7 +9,7 @@ import omega_util.Transformation;
 import genesis_event.Drawable;
 import genesis_event.HandlerRelay;
 import genesis_util.StateOperator;
-import genesis_util.Vector2D;
+import genesis_util.Vector3D;
 
 /**
  * This object is not created in an areaObjectCreator and is not dependent from other objects.
@@ -32,7 +32,7 @@ public class IndependentTestObject extends SimpleGameObject implements
 	 * @param handlers The handlers that will handle the object
 	 * @param position The object's new position
 	 */
-	public IndependentTestObject(HandlerRelay handlers, Vector2D position)
+	public IndependentTestObject(HandlerRelay handlers, Vector3D position)
 	{
 		super(handlers);
 		

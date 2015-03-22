@@ -5,7 +5,7 @@ import genesis_event.DrawableHandler;
 import genesis_event.HandlerRelay;
 import genesis_event.KeyListenerHandler;
 import genesis_event.MouseListenerHandler;
-import genesis_util.Vector2D;
+import genesis_util.Vector3D;
 import genesis_video.GamePanel;
 import genesis_video.GameWindow;
 
@@ -34,7 +34,7 @@ public class OmegaTest
 	public static void main(String[] args)
 	{
 		// Creates the window
-		GameWindow window = new GameWindow(new Vector2D(300, 300), "Omega Test", true, 120, 
+		GameWindow window = new GameWindow(new Vector3D(300, 300), "Omega Test", true, 120, 
 				20);
 		GamePanel panel = window.getMainPanel().addGamePanel();
 		
@@ -46,9 +46,9 @@ public class OmegaTest
 		handlers.addHandler(new ActorHandler(true, window.getStepHandler()));
 		
 		// Creates the test objects
-		IndependentTestObject o = new IndependentTestObject(handlers, new Vector2D(150, 150));
+		IndependentTestObject o = new IndependentTestObject(handlers, new Vector3D(150, 150));
 		new DependentTestObject(o, handlers);
 		
-		new TestTransformationInputObject(handlers, new Vector2D(150, 150));
+		new TestTransformationInputObject(handlers, new Vector3D(150, 150));
 	}
 }

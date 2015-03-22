@@ -11,7 +11,7 @@ import genesis_event.Actor;
 import genesis_event.Drawable;
 import genesis_event.HandlerRelay;
 import genesis_util.StateOperator;
-import genesis_util.Vector2D;
+import genesis_util.Vector3D;
 
 /**
  * These small test objects depend from the independent test object
@@ -39,7 +39,7 @@ public class DependentTestObject extends DependentGameObject<IndependentTestObje
 	{
 		super(master, handlers);
 		
-		this.ownTransformation = new Transformation(new Vector2D(100, 0));
+		this.ownTransformation = new Transformation(new Vector3D(100, 0));
 	}
 	
 	
@@ -85,6 +85,6 @@ public class DependentTestObject extends DependentGameObject<IndependentTestObje
 	public void act(double arg0)
 	{
 		setTrasformation(this.ownTransformation.rotatedAroundAbsolutePoint(1, 
-				Vector2D.zeroVector()));
+				Vector3D.zeroVector()));
 	}
 }
