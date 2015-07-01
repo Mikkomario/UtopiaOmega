@@ -125,10 +125,13 @@ public final class Transformation
 	/**
 	 * Adds this transformation to the given graphics drawer.
 	 * @param g2d The object that does the drawing
+	 * @return The transformation that was in place previously
 	 */
-	public void transform(Graphics2D g2d)
+	public AffineTransform transform(Graphics2D g2d)
 	{
+		AffineTransform lastTransform = g2d.getTransform();
 		g2d.transform(this.toAffineTransform());
+		return lastTransform;
 	}
 	
 	/**
