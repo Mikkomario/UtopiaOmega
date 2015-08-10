@@ -50,4 +50,25 @@ public class SimpleGameObject implements GameObject
 	{
 		return this.isActiveOperator;
 	}
+	
+	
+	// OTHER METHODS	-----------------------
+	
+	/**
+	 * Changes the operator that defines whether the object is alive or not
+	 * @param operator The new isDead operator
+	 */
+	public void setIsDeadStateOperator(StateOperator operator)
+	{
+		this.isDeadOperator = operator;
+	}
+	
+	/**
+	 * Changes the operator that defines whether the object is active or not
+	 * @param operator The new isActive operator
+	 */
+	public void setIsActiveStateOperator(StateOperator operator)
+	{
+		this.isActiveOperator = operator;
+	}
 }
